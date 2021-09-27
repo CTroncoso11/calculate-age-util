@@ -8,7 +8,7 @@ function checkDayMonth(value) {
 }
 function calculateAge(day, month, year) {
     if ((day >= 1 && day <= 31) && (month >= 1 && month <= 12) && (year >= 1 && year <= 9999)) {
-        //  conver date
+        //  Convert date
         var dayStr = checkDayMonth(day);
         var monthStr = checkDayMonth(month);
         var todayDateRaw = new Date();

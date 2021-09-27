@@ -1,15 +1,11 @@
 function checkDayMonth(value: number){
-  if(value <= 9 ){
-    return "0"+value.toString();
-  }
-  else {
-    return value.toString();
-  }
+  if( value <= 9 ){ return "0"+value.toString(); } 
+  else { return value.toString(); }
 }
 
 function calculateAge(day:number, month:number, year: number) {
   if((day >= 1 && day <= 31) && (month >= 1 && month <= 12) && (year >= 1 && year <= 9999)) {
-    //  conver date
+    //  Convert date
     let dayStr:string = checkDayMonth(day);
     let monthStr: string = checkDayMonth(month);
     
