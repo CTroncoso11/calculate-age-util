@@ -1,57 +1,37 @@
-function calculateDateDiference(date1, date2) {
-  let y1 = date1.getFullYear(), m1 = date1.getMonth(), d1 = date1.getDate();
-  let y2 = date2.getFullYear(), m2 = date2.getMonth(), d2 = date2.getDate();
-
-  if (d1 < d2) {
-      m1--;
-      d1 += new Date(y2, m2, 1, 12);
+function checkDayMonth(value: number){
+  if(value <= 9 ){
+    return "0"+value.toString();
   }
-  if (m1 < m2) {
-      y1--;
-      m1 += 12;
+  else {
+    return value.toString();
   }
-  return [y1 - y2, m1 - m2, (d1 - d2) ? (d1 - d2) : 0];
 }
 
-function calcularFechas(dia, mes, ano)
-{
-  const currentDate = new Date();
-  const currentDay = currentDate.getDate();
-  const currentMonth = currentDate.getMonth()+1;
-  const currentYear = currentDate.getFullYear();
-
-  //	Campos del selector, dia, mes y ano
-  const customerDay   = dia;
-  const customerMonth = mes;
-  const customerYear  = ano;
-
-  let curd = new Date(currentYear,currentMonth-1,currentDay);
-  let cald = new Date(customerYear,customerMonth-1,customerDay);
+function calculateAge(day:number, month:number, year: number) {
+  if((day >= 1 && day <= 31) && (month >= 1 && month <= 12) && (year >= 1 && year <= 9999)) {
+    //  conver date
+    let dayStr:string = checkDayMonth(day);
+    let monthStr: string = checkDayMonth(month);
+    
+    const todayDateRaw: Date = new Date();
+    const todayDate: Date = new Date((todayDateRaw.getTime() - (todayDateRaw.getTimezoneOffset() * 60000)));
   
-  var diff =  Date.UTC(currentYear,currentMonth,currentDay,0,0,0) - Date.UTC(customerYear,customerMonth,customerDay,0,0,0);
-  
-  const dateDiference = calculateDateDiference(curd,cald);
-
-  const dataInfo = {
-    years:  dateDiference[0],
-    months: dateDiference[1],
-    days:   dateDiference[2],
-    daysRaw: diff/1000/60/60/24,
-    hoursRaw:  diff/1000/60/60,
-    minutesRaw: diff/1000/60,
-    secondsRaw: diff/1000
+    const pastYearString: string = year.toString()+"-"+monthStr+"-"+dayStr+"T00:00:00";
+    const pastYearRaw: Date = new Date(pastYearString);
+    
+    const pastTime = (todayDate.getTime() - pastYearRaw.getTime());
+    return {
+      seconds:  Math.floor(pastTime/1000),
+      minutes:  Math.floor(pastTime/1000/60),
+      hours:    Math.floor(pastTime/1000/60/60),
+      days:     Math.floor(pastTime/1000/60/60/24),
+      weeks:    Math.floor(pastTime/1000/60/60/24/7),
+      month:    Math.floor(pastTime/1000/60/60/24/7/4.345), //Average time of how many weeks a month have
+      years:    Math.floor(pastTime/1000/60/60/24/365)
+    }
+  } else {
+    return false;
   }
-
-  const stringFrase = dateDiference[0]+" años, "+dateDiference[1]+" meses y "+dateDiference[2]+" días";
-  
-  //alert(""+parseInt(customerYear)+"--"+dife[0]+"--"+1);
-  const as = parseInt(customerYear) + dateDiference[0] + 1;
-
-  var diff =  Date.UTC(as,customerMonth,customerDay,0,0,0)  - Date.UTC(currentYear,currentMonth,currentDay,0,0,0);
-  const daysRemainings = diff/1000/60/60/24;
-  const stringRestantes = dataInfo.days + " días para tu cumpleaños";	 
-  console.log(stringRestantes," ---- ",stringFrase);
-  console.log(dataInfo.secondsRaw, dataInfo.hoursRaw, dataInfo.daysRaw)
-  return dataInfo;
 }
-console.log(calcularFechas(26, 11, 1966))
+const data:any = calculateAge(3, 12, 1999)
+console.log(data.month/12);
