@@ -39,5 +39,5 @@ function calculateAge(day:number, month:number, year: number, timeToBirthday: bo
   }
 }
 
-const data:any = calculateAge(3, 12, 2021, true)
-console.log(data);
+// const data:any = calculateAge(3, 12, 2021, true)
+// console.log(data);
